@@ -11,6 +11,7 @@ Future<void> main() async {
   try {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     final path = appDocDir.path;
+    print(path);
     mapList = loadMap('$path/map1.csv');
   } catch (e) {
     print(e);
