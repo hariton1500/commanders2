@@ -4,15 +4,21 @@ import 'package:commanders2/FLAME/game.dart';
 import 'package:commanders2/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //load map to app from csv file map1.csv
+  String path = '.';
   try {
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    final path = appDocDir.path;
+    if (!kIsWeb) {
+      Directory appDocDir = Directory.current;
+      appDocDir =  await getApplicationDocumentsDirectory();
+      path = appDocDir.path;
+    }
     print(path);
     mapList = loadMap('$path/map1.csv');
+    print(mapList);
   } catch (e) {
     print(e);
   }
