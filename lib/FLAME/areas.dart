@@ -1,4 +1,5 @@
 import 'package:commanders2/FLAME/commanders2.dart';
+import 'package:commanders2/globals.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
@@ -17,6 +18,7 @@ class PlayArea extends RectangleComponent with TapCallbacks, HasGameReference<Co
   void onTapDown(TapDownEvent event) {
     super.onTapDown(event);
     print('PlayArea onTapDown: ${event.localPosition}');
+    tapPosition = event.localPosition;
   }
 }
 

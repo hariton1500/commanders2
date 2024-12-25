@@ -43,4 +43,15 @@ class CommandersGame extends FlameGame with HasCollisionDetection, TapDetector {
       }
     }
   }
+
+  pathToTap(Vector2 tapPosition, Player player) {
+    //найти путь от игрока до точки нажатия избегая препятствий методом A*
+    
+
+
+    Vector2 tapPositionInMap = Vector2(tapPosition.x / 10, tapPosition.y / 10);
+    Vector2 playerPosition = Vector2(player.position.x / 10, player.position.y / 10);
+    Vector2 path = tapPositionInMap - playerPosition;
+    return path;
+  }
 }
