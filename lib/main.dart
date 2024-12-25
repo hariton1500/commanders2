@@ -18,7 +18,7 @@ Future<void> main() async {
     }
     print(path);
     mapList = loadMap('$path/map1.csv');
-    print(mapList);
+    print(maze);
   } catch (e) {
     print(e);
   }

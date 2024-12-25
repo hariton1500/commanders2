@@ -1,5 +1,3 @@
-//import 'dart:collection';
-
 class Point {
   final int x;
   final int y;
@@ -15,9 +13,7 @@ class Point {
   int get hashCode => x.hashCode ^ y.hashCode;
 
   @override
-  String toString() {
-    return '($x, $y)';
-  }
+  String toString() => '($x, $y)';
 }
 
 class Node {
@@ -76,7 +72,7 @@ List<Point> findPath(List<List<int>> maze, Point start, Point end) {
           maze[neighbor.x][neighbor.y] == 0) {
         final tentativeGScore = gScore[current]! + 1;
 
-        if (tentativeGScore < (gScore[neighbor] ?? 99999999999)) {
+        if (tentativeGScore < (gScore[neighbor] ?? 99999999999999999)) {
           cameFrom[neighbor] = current;
           gScore[neighbor] = tentativeGScore;
           fScore[neighbor] = tentativeGScore + heuristic(neighbor, end);
