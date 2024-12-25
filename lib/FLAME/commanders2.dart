@@ -1,9 +1,11 @@
 import 'package:commanders2/FLAME/areas.dart';
 import 'package:commanders2/FLAME/factory.dart';
+import 'package:commanders2/FLAME/player.dart';
 import 'package:commanders2/FLAME/wall.dart';
 import 'package:commanders2/globals.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 
 
@@ -17,9 +19,15 @@ class CommandersGame extends FlameGame with HasCollisionDetection, TapDetector {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    final player = Player();
     add(PlayArea());
-    add(MenuArea());
+    //add(MenuArea());
     addMapElements();
+    camera
+      ..viewfinder.visibleGameSize = Vector2(100, 100)
+      ..follow(player)
+      ..setBounds(Rectangle.fromLTRB(0, 0, width, height));
+    add(player);
   }
   
   void addMapElements() {
