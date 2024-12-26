@@ -13,7 +13,7 @@ class Base extends RectangleComponent with TapCallbacks, HasGameReference<Comman
     super.onTapDown(event);
     //pressedBase = this;
     //game.add(BasePage(game: game, base: this));
-    print('Base onTapDown: ${position}');
+    print('Base onTapDown: $position');
     //find path from player to tapPosition
     //use findPath function from findpath.dart
     //change this base to 0 in maze
