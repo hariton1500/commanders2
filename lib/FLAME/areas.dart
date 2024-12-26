@@ -23,18 +23,16 @@ class PlayArea extends RectangleComponent with TapCallbacks, HasGameReference<Co
     tapPosition = event.localPosition;
     //find path from player to tapPosition
     //use findPath function from findpath.dart
-    if (game.world.children.query<Player>().isNotEmpty) {
-
-      print(findPath(maze, Point(game.world.children.query<Player>().first.position.y.toInt(), game.world.children.query<Player>().first.position.x.toInt()), Point(tapPosition.x.toInt(), tapPosition.y.toInt())));
-    } else {
-      print('No player found');
-      List<Point> path = findPath(maze, Point(2, 2), Point((tapPosition.y / 10).toInt(), (tapPosition.x / 10).toInt()));
-      print(path);
-      game.addAll(path.map((e) => PathElement(Vector2(e.y * 10, e.x * 10))));
-      //wait for 2 seconds
-      await Future.delayed(const Duration(seconds: 2));
-      game.removeAll(game.children.whereType<PathElement>());
+    List<Point> path = findPath(maze, Point((playerPosition.y / 10).toInt(), (playerPosition.x / 10).toInt()), Point((tapPosition.y / 10).toInt(), (tapPosition.x / 10).toInt()));
+    //print(path);
+    if (path.isNotEmpty) {
+      print('path found');
+      newPath = path.map((e) => Vector2(e.y * 10, e.x * 10)).toList();
     }
+    game.addAll(path.map((e) => PathElement(Vector2(e.y * 10, e.x * 10))));
+    //wait for 2 seconds
+    await Future.delayed(const Duration(seconds: 2));
+    game.removeAll(game.children.whereType<PathElement>());
   }
 }
 

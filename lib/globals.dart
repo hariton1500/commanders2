@@ -7,6 +7,8 @@ int get mapHeight => mapList.length;
 int get mapWidth => mapList.isNotEmpty ? mapList[0].split(',').length * (wallSize.x.round()) : 0;
 
 Vector2 tapPosition = Vector2.zero();
+List<Vector2> newPath = [];
+Vector2 playerPosition = Vector2.all(20);
 
 List<List<int>> get maze => mapList.map((String e) {
   return e.split(',').map((String e) {
