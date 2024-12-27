@@ -37,7 +37,10 @@ class Player extends RectangleComponent with HasGameReference<CommandersGame> {
     playerPosition = position;
   }
   
-  void enterBase(Base element) {}
+  void enterBase(Base element) {
+    selectedBase = element;
+    game.overlays.add('BasePage');
+  }
 }
 
 class PathElement extends RectangleComponent with HasGameReference<CommandersGame> {

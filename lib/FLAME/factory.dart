@@ -16,8 +16,10 @@ class Base extends RectangleComponent with TapCallbacks, HasGameReference<Comman
   Base(Vector2 position) : super(anchor: Anchor.topLeft, size: Vector2.all(10), position: position, paint: Paint()..color = Colors.grey);
 
   int baseStatus = 0; //0 = neutral, 1 = player, 2 = enemy
-  late ManufacturingBot producingBot;
+  //late ManufacturingBot producingBot;
   bool isProducingBotPermanently = false;
+  bool isAIInstalled = false;
+  bool isWeaponInstalled = false;
   
   
   @override
@@ -41,8 +43,20 @@ class Base extends RectangleComponent with TapCallbacks, HasGameReference<Comman
   Widget build(BuildContext context, CommandersGame game) {
     return Material(
       child: Center(
-        child: Container(
-          child: Text('Base'),
+        child: Column(
+          children: [
+            Container(
+              width: 300,
+              height: 300,
+              child: Text('Base'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                game.overlays.remove('BasePage');
+              },
+              child: const Text('Cancel')
+            )
+          ],
         ),
       ),
     );

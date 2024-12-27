@@ -1,4 +1,7 @@
 import 'package:commanders2/FLAME/commanders2.dart';
+import 'package:commanders2/MENUS/basepage.dart';
+import 'package:commanders2/MENUS/win.dart';
+import 'package:commanders2/globals.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
@@ -45,11 +48,11 @@ class _GamePageState extends State<GamePage> {
                     height: 500,
                     child: GameWidget(
                       game: game,
-                      /*
+                      
                       overlayBuilderMap: {
-                        'BasePage': (_, game_) => BasePage(game: game, base: pressedBase),
+                        'BasePage': (_, game_) => BasePage(game: game, base: selectedBase!),
                         'WinPage': (_, game_) => WinPage(game: game, isWin: isWin,),
-                      },*/
+                      },
                     ),
                   ),
                 ),

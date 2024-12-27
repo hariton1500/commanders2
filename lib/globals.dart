@@ -1,3 +1,4 @@
+import 'package:commanders2/FLAME/factory.dart';
 import 'package:flame/components.dart';
 
 Vector2 wallSize = Vector2.all(10);
@@ -15,3 +16,8 @@ List<List<int>> get maze => mapList.map((String e) {
       return e == '' ? 0 : 1;
     }).toList();
 }).toList();
+
+double freePlayersConstructionBlocks = 0;
+Base? selectedBase;
+bool isWin = false;
+double botSpeed = 1;
