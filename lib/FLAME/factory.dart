@@ -5,9 +5,21 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 
+class ManufacturingBot {
+  bool isAIInstalled = false;
+  bool isWeaponInstalled = false;
+  ManufacturingBot(this.isAIInstalled, this.isWeaponInstalled);
+}
+
+
 class Base extends RectangleComponent with TapCallbacks, HasGameReference<CommandersGame> {
   Base(Vector2 position) : super(anchor: Anchor.topLeft, size: Vector2.all(10), position: position, paint: Paint()..color = Colors.grey);
 
+  int baseStatus = 0; //0 = neutral, 1 = player, 2 = enemy
+  late ManufacturingBot producingBot;
+  bool isProducingBotPermanently = false;
+  
+  
   @override
   void onTapDown(TapDownEvent event) {
     super.onTapDown(event);
@@ -24,5 +36,15 @@ class Base extends RectangleComponent with TapCallbacks, HasGameReference<Comman
       print('path found');
       newPath = path.map((e) => Vector2(e.y * 10, e.x * 10)).toList();
     }
+  }
+
+  Widget build(BuildContext context, CommandersGame game) {
+    return Material(
+      child: Center(
+        child: Container(
+          child: Text('Base'),
+        ),
+      ),
+    );
   }
 }
