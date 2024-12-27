@@ -16,8 +16,7 @@ class BasePage extends StatefulWidget {
 
 int botConstructionCosts = 1;
 late bool isWeaponInstalled;
-late bool isCaptureBases;
-late bool isShootEnemies;
+late bool isAIInstalled;
 late bool isProduceBotsPermanent;
 
 class _BasePageState extends State<BasePage> {
@@ -26,8 +25,7 @@ class _BasePageState extends State<BasePage> {
   void initState() {
     super.initState();
     isWeaponInstalled = widget.base.isWeaponInstalled;
-    isCaptureBases = widget.base.isAIInstalled;
-    isShootEnemies = false;
+    isAIInstalled = widget.base.isAIInstalled;
     isProduceBotsPermanent = widget.base.isProducingBotPermanently;
   }
   @override
@@ -37,7 +35,7 @@ class _BasePageState extends State<BasePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text('Free blocks: $freePlayersConstructionBlocks'),
+          Text('Free blocks: ${freePlayersConstructionBlocks.toInt()}'),
           Text('Current bot construction costs: $botConstructionCosts blocks.'),
           SwitchListTile(value: isWeaponInstalled, onChanged: (value) {
             setState(() {
@@ -52,22 +50,18 @@ class _BasePageState extends State<BasePage> {
           title: const Text('Install weapon'),
           subtitle: const Text('This will increase bot construction costs by 1 block and this bot will be able to shoot enemies.'),
           ),
-          const Text('Bots mission options:'),
-          SwitchListTile(value: isCaptureBases, onChanged: (value) {
+          SwitchListTile(value: isAIInstalled, onChanged: (value) {
             setState(() {
-              isCaptureBases = value;
+              isAIInstalled = value;
+              if (isAIInstalled) {
+                botConstructionCosts += 1;
+              } else {
+                botConstructionCosts -= 1;
+              }
             });
           },
-          title: const Text('Capture bases'),
-          subtitle: const Text('This bot will try to capture bases.'),
-          ),
-          SwitchListTile(value: isShootEnemies, onChanged: (value) {
-            setState(() {
-              isShootEnemies = value;
-            });
-          },
-          title: const Text('Shoot enemies'),
-          subtitle: const Text('This bot will try to shoot enemies.'),
+          title: const Text('Install AI'),
+          subtitle: const Text('This will increase bot construction costs by 1 block and this bot will be able to capture bases.'),
           ),
           SwitchListTile(value: isProduceBotsPermanent, onChanged: (value) {
             setState(() {
@@ -91,13 +85,12 @@ class _BasePageState extends State<BasePage> {
                       position: widget.base.position,
                       radius: 5,
                       isPlayersBot: true,
-                    )..isCaptureBases = isCaptureBases
-                    ..isShootEnemies = isShootEnemies
-                    ..isWeaponInstalled = isWeaponInstalled);
+                    )..isCaptureBases = isAIInstalled
+                    ..isShootEnemies = isWeaponInstalled);
                     await widget.game.lifecycleEventsProcessed;
                     selectedBase!
                       ..isProducingBotPermanently = isProduceBotsPermanent
-                      ..isAIInstalled = isCaptureBases
+                      ..isAIInstalled = isAIInstalled
                       ..isWeaponInstalled = isWeaponInstalled;
                   }
                 },

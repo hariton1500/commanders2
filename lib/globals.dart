@@ -17,7 +17,7 @@ List<List<int>> get maze => mapList.map((String e) {
     }).toList();
 }).toList();
 
-double freePlayersConstructionBlocks = 0;
+double freePlayersConstructionBlocks = 5;
 Base? selectedBase;
 bool isWin = false;
 double botSpeed = 1;
