@@ -14,8 +14,8 @@ class WinPage extends StatelessWidget {
       color: Colors.transparent,
       child: Center(
         child: Container(
-          height: game.height - 150,
-          width: game.width - 100,
+          height: game.size.y - 150,
+          width: game.size.x - 100,
           decoration: const BoxDecoration(
             color: Colors.grey,
             borderRadius: BorderRadius.all(

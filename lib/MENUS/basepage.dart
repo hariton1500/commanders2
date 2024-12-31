@@ -84,9 +84,8 @@ class _BasePageState extends State<BasePage> {
                       velocity: Vector2.zero(),
                       position: widget.base.position,
                       radius: 5,
-                      isPlayersBot: true,
-                    )..isCaptureBases = isAIInstalled
-                    ..isShootEnemies = isWeaponInstalled);
+                      isPlayersBot: true, isAIInstalled: isAIInstalled, isWeaponInstalled: isWeaponInstalled,
+                    ));
                     await widget.game.lifecycleEventsProcessed;
                     selectedBase!
                       ..isProducingBotPermanently = isProduceBotsPermanent

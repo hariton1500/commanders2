@@ -42,8 +42,8 @@ class MenuArea extends RectangleComponent with HasGameReference<CommandersGame> 
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    size = Vector2(game.width, 50);
-    position = Vector2(0, game.height - 50);
-    paint.color = Colors.grey;
+    size = Vector2(game.size.x, 50);
+    position = Vector2(0, game.size.y);
+    paint.color = Colors.black;
   }
 }

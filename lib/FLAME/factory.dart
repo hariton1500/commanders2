@@ -11,9 +11,20 @@ class ManufacturingBot {
   ManufacturingBot(this.isAIInstalled, this.isWeaponInstalled);
 }
 
+class BaseWall extends RectangleComponent with TapCallbacks, HasGameReference<CommandersGame> {
+  BaseWall(Vector2 position, {required this.base}) : super(position: position, anchor: Anchor.topLeft, size: Vector2(10, 10), paint: Paint()..color = Colors.yellow);
+  Base? base;
+
+  @override
+  void onTapDown(TapDownEvent event) {
+    super.onTapDown(event);
+    //print('BaseWall onTapDown: $position');
+    base?.onTapDown(event);
+  }
+}
 
 class Base extends RectangleComponent with TapCallbacks, HasGameReference<CommandersGame> {
-  Base(Vector2 position) : super(anchor: Anchor.topLeft, size: Vector2.all(10), position: position, paint: Paint()..color = Colors.grey);
+  Base(Vector2 position) : super(anchor: Anchor.topLeft, size: Vector2.all(10), position: position, paint: Paint()..color = Colors.black);
 
   int baseStatus = 0; //0 = neutral, 1 = player, 2 = enemy
   //late ManufacturingBot producingBot;
@@ -45,10 +56,10 @@ class Base extends RectangleComponent with TapCallbacks, HasGameReference<Comman
       child: Center(
         child: Column(
           children: [
-            Container(
+            SizedBox(
               width: 300,
               height: 300,
-              child: Text('Base'),
+              child: const Text('Base'),
             ),
             ElevatedButton(
               onPressed: () {

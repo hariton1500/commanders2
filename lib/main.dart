@@ -20,9 +20,9 @@ Future<void> main() async {
       appDocDir =  await getApplicationDocumentsDirectory();
       path = appDocDir.path;
     }
-    print(path);
+    //print(path);
     mapList = loadMap('$path/map1.csv');
-    print(maze);
+    //print(maze);
   } catch (e) {
     print(e);
   }
