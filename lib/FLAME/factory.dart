@@ -1,5 +1,5 @@
 import 'package:commanders2/FLAME/commanders2.dart';
-import 'package:commanders2/HELPERS/findpath.dart';
+import 'package:commanders2/HELPERS/fp2.dart';
 import 'package:commanders2/globals.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
@@ -20,6 +20,11 @@ class BaseWall extends RectangleComponent with TapCallbacks, HasGameReference<Co
     super.onTapDown(event);
     //print('BaseWall onTapDown: $position');
     base?.onTapDown(event);
+  }
+
+  @override
+  String toString() {
+    return 'Base${position.toString()} || ${debugColor.toString()}';
   }
 }
 
@@ -56,10 +61,10 @@ class Base extends RectangleComponent with TapCallbacks, HasGameReference<Comman
       child: Center(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               width: 300,
               height: 300,
-              child: const Text('Base'),
+              child: Text('Base'),
             ),
             ElevatedButton(
               onPressed: () {
