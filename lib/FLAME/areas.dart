@@ -1,3 +1,4 @@
+import 'package:commanders2/FLAME/bot.dart';
 import 'package:commanders2/FLAME/commanders2.dart';
 import 'package:commanders2/FLAME/player.dart';
 import 'package:commanders2/HELPERS/fp2.dart';
@@ -37,7 +38,18 @@ class PlayArea extends RectangleComponent with TapCallbacks, HasGameReference<Co
 }
 
 class MenuArea extends RectangleComponent with HasGameReference<CommandersGame> {
-  MenuArea() : super(children: []);
+  MenuArea() : super(anchor: Anchor.topLeft);
+
+  var textC1 = TextComponent(
+    text: 'Menu',
+    textRenderer: TextPaint(style: const TextStyle(color: Colors.white, fontSize: 14)),
+    anchor: Anchor.topLeft,
+  );
+  var botsData = TextComponent(
+    text: '',
+    textRenderer: TextPaint(style: const TextStyle(color: Colors.white, fontSize: 14)),
+    anchor: Anchor.topLeft,
+  );
 
   @override
   Future<void> onLoad() async {
@@ -45,5 +57,15 @@ class MenuArea extends RectangleComponent with HasGameReference<CommandersGame> 
     size = Vector2(game.size.x, 50);
     position = Vector2(0, game.size.y);
     paint.color = Colors.black;
+    //add(textC1..position = Vector2(0, 0));
+    add(botsData..position = Vector2(10, 0));
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    //textC1.text = game.children.query<Bot>().length.toString();
+    //print(game.children.length);
+    botsData.text = game.children.query<Bot>().map((e) => e.toString()).join('\n');
   }
 }

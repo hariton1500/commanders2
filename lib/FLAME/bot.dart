@@ -1,7 +1,6 @@
 import 'package:commanders2/FLAME/commanders2.dart';
 import 'package:commanders2/FLAME/factory.dart';
 import 'package:commanders2/FLAME/rocket.dart';
-import 'package:commanders2/HELPERS/fb.dart';
 import 'package:commanders2/HELPERS/fp2.dart';
 import 'package:commanders2/globals.dart';
 import 'package:flame/collisions.dart';
@@ -31,23 +30,35 @@ class Bot extends RectangleComponent with CollisionCallbacks, HasGameRef<Command
   Base? targetBase;
   List<Vector2> path = [];
   Rocket? activeRocket;
-  int damage = 0;
+  int damage = 0, life = 5;
+  DateTime lastShotTime = DateTime.now();
+
+  var text = TextComponent(
+    text: '',
+    textRenderer: TextPaint(style: const TextStyle(color: Colors.white, fontSize: 10)),
+    anchor: Anchor.center,
+  );
+
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    paint.color = isPlayersBot ? Colors.green : Colors.red;
+    paint.color = isPlayersBot ? Colors.blue : Colors.red;
+    add(text..position = Vector2(5, 3));
   }
 
   @override
   String toString() {
-    return 'Bot(${position.toString()})';
+    return 'Bot${position.toString()} | ${damage.toString()} | ${isAIInstalled.toString()} | ${isWeaponInstalled.toString()}';
   }
 
   @override
   void update(double dt) {
     super.update(dt);
-
+    if (damage >= life) {
+      removeFromParent();
+    }
+    text.text = (life - damage).toString();
     //if bot has AI installed its mission to move to nearest non players base
     if (isAIInstalled) {
       if (path.isNotEmpty) {
@@ -55,16 +66,19 @@ class Bot extends RectangleComponent with CollisionCallbacks, HasGameRef<Command
           path.removeAt(0);
         }
       if (path.isNotEmpty) position += (path[0] - position).normalized() * 1;
+      //print(position);
       }
       if (path.isEmpty) {
-        print('$this find path to...');
+        //print('$this find path to...');
         var otherBases = game.children.whereType<Base>().where((b) => b.baseStatus != statusLikeBase).toList();
-        Base? nearestBaseToCapture = getNearestBaseTo(pos: position, from: otherBases);
+        //Base? nearestBaseToCapture = getNearestBaseTo(pos: position, from: otherBases);
+        otherBases.shuffle();
+        Base? nearestBaseToCapture = otherBases.firstOrNull;
         if (nearestBaseToCapture != null) {
-          print(nearestBaseToCapture.toString());
+          //print(nearestBaseToCapture.toString());
           var p = findPath(maze, Point((position.y / 10).toInt(), (position.x / 10).toInt()), Point((nearestBaseToCapture.position.y / 10).toInt(), (nearestBaseToCapture.position.x / 10).toInt()));
           if (p.isNotEmpty) {
-            print('path for bot is found');
+            //print('path for bot is found');
             path = p.map((e) => Vector2(e.y * 10, e.x * 10)).toList();
           }
         }
@@ -73,8 +87,8 @@ class Bot extends RectangleComponent with CollisionCallbacks, HasGameRef<Command
       game.children.whereType<Base>().forEach((element) {
         //print('Checking if bot is at base ${element.position}');
         if (element.position.distanceTo(position) < 1) {
-          print('bot is at base');
-          element.setColor(isPlayersBot ? Colors.green : Colors.red);
+          //print('bot is at base');
+          element.setColor(paint.color);
           element.baseStatus = statusLikeBase;
           //path.clear();
           //enterBase(element);
@@ -83,15 +97,18 @@ class Bot extends RectangleComponent with CollisionCallbacks, HasGameRef<Command
     }
 
     if (isWeaponInstalled && activeRocket == null) {
-      Bot? targetBot;
+      //print('shoot checking...');
+      List<Bot> targetBots = [];
       try {
-        targetBot = game.children.whereType<Bot>().where((b) => b.isPlayersBot != isPlayersBot).firstWhere((b) => b.position.distanceTo(position) <= 100);
+        targetBots = game.children.whereType<Bot>().where((b) => b.isPlayersBot != isPlayersBot).where((b) => b.position.distanceTo(position) <= 100).toList();
       } catch (e) {
-        print(e);
+        //print(e);
       }
-      if (targetBot != null) {
-        activeRocket = Rocket(position, velocity: velocity, shooter: this, target: targetBot);
-        game.world.add(activeRocket!);
+      if (targetBots.isNotEmpty && (DateTime.now().difference(lastShotTime).inMilliseconds > 1000)) {
+        //print('shooting...');
+        activeRocket = Rocket(position, velocity: Vector2.zero(), shooter: this, target: targetBots.first);
+        game.add(activeRocket!);
+        lastShotTime = DateTime.now();
       }
     }
   }

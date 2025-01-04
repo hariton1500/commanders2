@@ -1,6 +1,6 @@
 import 'package:commanders2/FLAME/commanders2.dart';
-import 'package:commanders2/HELPERS/fp2.dart';
 import 'package:commanders2/globals.dart';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +23,13 @@ class BaseWall extends RectangleComponent with TapCallbacks, HasGameReference<Co
   }
 
   @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    add(RectangleHitbox(collisionType: CollisionType.passive));
+  }
+
+
+  @override
   String toString() {
     return 'Base${position.toString()} || ${debugColor.toString()}';
   }
@@ -43,16 +50,16 @@ class Base extends RectangleComponent with TapCallbacks, HasGameReference<Comman
     super.onTapDown(event);
     //pressedBase = this;
     //game.add(BasePage(game: game, base: this));
-    print('Base onTapDown: $position');
+    //print('Base onTapDown: $position');
     //find path from player to tapPosition
     //use findPath function from findpath.dart
     //change this base to 0 in maze
-    maze[(position.y / 10).toInt()][(position.x / 10).toInt()] = 0;
-    List<Point> path = findPath(maze, Point((playerPosition.y / 10).toInt(), (playerPosition.x / 10).toInt()), Point((position.y / 10).toInt(), (position.x / 10).toInt()));
+    //maze[(position.y / 10).toInt()][(position.x / 10).toInt()] = 0;
+    //List<Point> path = findPath(maze, Point((playerPosition.y / 10).toInt(), (playerPosition.x / 10).toInt()), Point((position.y / 10).toInt(), (position.x / 10).toInt()));
     //print(path);
-    if (path.isNotEmpty) {
-      print('path found');
-      newPath = path.map((e) => Vector2(e.y * 10, e.x * 10)).toList();
+    if (baseStatus == 1) {
+      selectedBase = this;
+      game.overlays.add('BasePage');
     }
   }
 

@@ -21,4 +21,4 @@ double freePlayersConstructionBlocks = 5;
 Base? selectedBase;
 bool isWin = false;
 double botSpeed = 1;
-double rocketSpeed = 1;
+double rocketSpeed = 100;

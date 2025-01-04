@@ -1,5 +1,6 @@
 import 'package:commanders2/FLAME/bot.dart';
 import 'package:commanders2/FLAME/commanders2.dart';
+import 'package:commanders2/FLAME/factory.dart';
 import 'package:commanders2/FLAME/wall.dart';
 import 'package:commanders2/globals.dart';
 import 'package:flame/collisions.dart';
@@ -16,6 +17,7 @@ class Rocket extends CircleComponent with CollisionCallbacks, HasGameReference<C
   Future<void> onLoad() async {
     await super.onLoad();
     paint.color = shooter.paint.color;
+    add(CircleHitbox());
   }
 
   @override
@@ -23,6 +25,7 @@ class Rocket extends CircleComponent with CollisionCallbacks, HasGameReference<C
     super.update(dt);
     velocity = (target.position - position).normalized() * rocketSpeed;
     position += velocity * dt;
+    //print(position);
     if (position.distanceTo(target.position) <= radius) {
       try {
         shooter.activeRocket = null;
@@ -35,7 +38,14 @@ class Rocket extends CircleComponent with CollisionCallbacks, HasGameReference<C
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
-    if (other is Wall) {
+    if (other is Wall || other is BaseWall) {
+      shooter.activeRocket = null;
+      removeFromParent();
+    }
+    if (other is Bot) {
+      //shooter.activeRocket = null;
+      //removeFromParent();
+      other.damage++;
       shooter.activeRocket = null;
       removeFromParent();
     }

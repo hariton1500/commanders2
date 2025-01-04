@@ -80,10 +80,10 @@ class _BasePageState extends State<BasePage> {
                     widget.game.overlays.remove('BasePage');
                     freePlayersConstructionBlocks -= botConstructionCosts;
                     //add bot to game at this base position
-                    widget.game.world.add(Bot(
+                    widget.game.add(Bot(
                       velocity: Vector2.zero(),
                       position: widget.base.position,
-                      radius: 5,
+                      radius: 10,
                       isPlayersBot: true, isAIInstalled: isAIInstalled, isWeaponInstalled: isWeaponInstalled,
                     ));
                     await widget.game.lifecycleEventsProcessed;
